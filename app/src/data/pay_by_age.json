@@ -1,0 +1,32 @@
+[
+  {
+    "min_age": 18,
+    "max_age": 21,
+    "median_salary_full_time": 18597
+  },
+  {
+    "min_age": 22,
+    "max_age": 29,
+    "median_salary_full_time": 27492
+  },
+  {
+    "min_age": 30,
+    "max_age": 39,
+    "median_salary_full_time": 34306
+  },
+  {
+    "min_age": 40,
+    "max_age": 49,
+    "median_salary_full_time": 36961
+  },
+  {
+    "min_age": 50,
+    "max_age": 59,
+    "median_salary_full_time": 34809
+  },
+  {
+    "min_age": 60,
+    "max_age": null,
+    "median_salary_full_time": 30468
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "dob_on_or_before": "1970-04-5",
+    "retire_age": 66,
+    "note": null
+  },
+  {
+    "dob_on_or_before": "1978-04-5",
+    "retire_age": 67,
+    "note": "Your state pension age is currently 67 - based on government plans it will rise to between 67 years and 1 month and 68 years, depending on your date of birth"
+  }
+]
