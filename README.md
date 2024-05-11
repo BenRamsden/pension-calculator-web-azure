@@ -1,8 +1,40 @@
 # pension-calculator-web
 
-[pension-calculator.net](https://pension-calculator.net)
+<img src="./docs/images/pension_calculator_preview_11_04_2024.png" />
 
-# Data
+# Local Development
+
+## Setup
+
+- Put defaults into `.env.development` matching `app/src/config/index.ts` to speed up development.
+
+## Run app
+
+```shell
+cd app
+yarn
+yarn dev
+```
+
+# Manual deployment steps
+
+## Domain and Hosted Zone
+
+- Create a hosted zone in Route 53
+
+- Set `static-website:targetDomain` in `pulumi/Pulumi.prod.yaml` to this domain
+
+## Deploy
+
+```shell
+cd pulumi
+yarn
+pulumi up
+```
+
+# Updating source data
+
+> Data calculations are based on are stored in `app/src/data/`. Below are the sources and transformations applied to this data.
 
 - Life expectancy projection [ONS](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/lifeexpectancies/datasets/expectationoflifeprincipalprojectionunitedkingdom)
   - Books
@@ -20,23 +52,3 @@
   - Doc: `Annual pay - Gross 2022`
   - Book: `Full-Time`
   - Column: `Median`
-
-# Development
-
-- Put defaults into `.env.development` matching `app/src/config/index.ts` to speed up development.
-
-# Manual deployment steps
-
-## Domain and Hosted Zone
-
-- Create a hosted zone in Route 53
-
-- Set `static-website:targetDomain` in `pulumi/Pulumi.prod.yaml` to this domain
-
-# Deploy
-
-- Run up
-
-```shell
-pulumi up
-```
