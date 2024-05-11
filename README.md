@@ -25,22 +25,6 @@
 
 - Put defaults into `.env.development` matching `app/src/config/index.ts` to speed up development.
 
-# Pre-requisites
-
-## Setup aws cli
-
-- Login to the AWS Root account 571510158769
-
-- Create an iam user
-
-- Put your aws access key into `~/.aws/credentials` under the profile name `benramsden`
-
-```
-[benramsden]
-aws_access_key_id=
-aws_secret_access_key=
-```
-
 # Manual deployment steps
 
 ## Domain and Hosted Zone
