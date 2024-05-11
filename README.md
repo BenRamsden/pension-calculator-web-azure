@@ -29,11 +29,9 @@
 
 ## Domain and Hosted Zone
 
-- Create a Google Domain pension-calculator.net
+- Create a hosted zone in Route 53
 
-- Create pension-calculator.net hosted zone in Route 53
-
-- Configure Google domain to use hosted zone NS records
+- Set `static-website:targetDomain` in `pulumi/Pulumi.prod.yaml` to this domain
 
 # Deploy
 
