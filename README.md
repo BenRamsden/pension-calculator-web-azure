@@ -1,6 +1,8 @@
 # pension-calculator-web
 
-<img src="./docs/images/pension_calculator_preview_11_04_2024.png" />
+# TODO
+
+- [Configure Azure OIDC with GitHub actions for CD deploys](https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation-create-trust?pivots=identity-wif-apps-methods-azp#github-actions)
 
 # Local Development
 
