@@ -28,7 +28,11 @@ az ad sp create-for-rbac --name "myApp" \
   --json-auth
 ```
 
-- Take the entire JSON output and set it as `AZURE_CREDENTIALS` in GitHub secrets
+- Take `clientId` and set it as `ARM_CLIENT_ID` in GitHub secrets
+- Take `clientSecret` and set it as `ARM_CLIENT_SECRET` in GitHub secrets
+- Take `tenantId` and set it as `ARM_TENANT_ID` in GitHub secrets
+- Take `subscriptionId` and set it as `ARM_SUBSCRIPTION_ID` in GitHub secrets
+- Additionally, if you plan to use Azure CLI through GitHub actions set `AZURE_CREDENTIALS` to the whole JSON output
 
 ## Pulumi access token
 
