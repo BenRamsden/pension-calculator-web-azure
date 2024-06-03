@@ -1,3 +1,7 @@
-name: pension-calculator-web
+name: pension-calculator-web-azure
 runtime: nodejs
-description: A minimal AWS TypeScript Pulumi program
+description: A minimal Azure Native TypeScript Pulumi program
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: azure-typescript

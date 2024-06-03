@@ -1,6 +1,2 @@
 config:
-  aws:profile: benramsden
-  aws:region: eu-west-2
-  static-website:targetDomain: pension-calculator.net
-  static-website:pathToWebsiteContents: ../app/dist
-  static-website:includeWWW: true
+  azure-native:location: uksouth
