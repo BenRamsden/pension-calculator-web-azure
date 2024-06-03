@@ -1,9 +1,5 @@
 # pension-calculator-web
 
-# TODO
-
-- [Configure Azure OIDC with GitHub actions for CD deploys](https://learn.microsoft.com/en-us/entra/workload-id/workload-identity-federation-create-trust?pivots=identity-wif-apps-methods-azp#github-actions)
-
 # Local Development
 
 ## Setup
@@ -17,6 +13,26 @@ cd app
 yarn
 yarn dev
 ```
+
+# CI Deployment Setup
+
+## Azure service principal
+
+> :warning: To run this you will need to set up an azure subscription in the portal.
+> :warning: To run this you will need to `pulumi up` locally manually to set up the resourceGroup.
+
+```shell
+az ad sp create-for-rbac --name "myApp" \
+  --role contributor \
+  --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} \
+  --json-auth
+```
+
+- Take the entire JSON output and set it as `AZURE_CREDENTIALS` in GitHub secrets
+
+## Pulumi access token
+
+- Create a new personal access token in Pulumi and set it as `PULUMI_ACCESS_TOKEN` in GitHub secrets
 
 # Manual deployment steps
 
