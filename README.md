@@ -40,14 +40,6 @@ az ad sp create-for-rbac --name "myApp" \
 
 # Manual deployment steps
 
-## Domain and Hosted Zone
-
-- Create a hosted zone in Route 53
-
-- Set `static-website:targetDomain` in `pulumi/Pulumi.prod.yaml` to this domain
-
-## Deploy
-
 ```shell
 cd pulumi
 yarn
