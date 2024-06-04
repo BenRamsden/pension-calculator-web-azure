@@ -20,6 +20,7 @@ yarn dev
 
 > :warning: To run this you will need to set up an azure subscription in the portal.
 > :warning: To run this you will need to `pulumi up` locally manually to set up the resourceGroup.
+> This creates an "app registration" in Entra ID and assigns the `contributor` role to the resource group.
 
 ```shell
 az ad sp create-for-rbac --name "myApp" \
