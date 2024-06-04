@@ -3,6 +3,7 @@ import * as resources from "@pulumi/azure-native/resources";
 import * as storage from "@pulumi/azure-native/storage";
 import * as azure_native from "@pulumi/azure-native";
 import * as synced_folder from "@pulumi/synced-folder";
+// import { functionEndpoint } from "./function";
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
@@ -47,8 +48,6 @@ const syncedFolder = new synced_folder.AzureBlobFolder("synced-folder", {
 //   sku: {
 //     name: "Standard_Microsoft",
 //   },
-//   // Not available in uksouth, so use northeurope.
-//   // location: "global",
 // });
 
 // Pull the hostname out of the storage-account endpoint.
@@ -56,7 +55,7 @@ const originHostname = storageAccount.primaryEndpoints.apply(
   (endpoints) => new URL(endpoints.web)
 ).hostname;
 
-// // Create a CDN endpoint to distribute and cache the website.
+// Create a CDN endpoint to distribute and cache the website.
 // const endpoint = new azure_native.cdn.Endpoint("endpoint", {
 //   resourceGroupName: resourceGroup.name,
 //   profileName: profile.name,
@@ -88,3 +87,4 @@ export const originURL = storageAccount.primaryEndpoints.apply(
 export { originHostname };
 // export const cdnURL = pulumi.interpolate`https://${endpoint.hostName}`;
 // export const cdnHostname = endpoint.hostName;
+// export { functionEndpoint };
