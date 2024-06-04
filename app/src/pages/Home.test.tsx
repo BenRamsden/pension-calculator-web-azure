@@ -15,6 +15,12 @@ const testNumberInput = (dataTestId: string, value: number) => {
 };
 
 describe("<Home/>", () => {
+  beforeAll(() => {
+    // Fake system date to 01/01/2023 to make the test deterministic
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2023-01-01"));
+  });
+
   it("renders", () => {
     // TODO: DRY, prevent replicating providers here
     render(
@@ -50,6 +56,6 @@ describe("<Home/>", () => {
 
     const finalPotValue = screen.getByTestId("final-pot-value");
     expect(finalPotValue).toBeInTheDocument();
-    expect(finalPotValue).toHaveTextContent("£ 156121");
+    expect(finalPotValue).toHaveTextContent("£ 155848");
   });
 });
