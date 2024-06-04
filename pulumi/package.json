@@ -1,12 +1,13 @@
 {
-    "name": "pension-calculator-web-azure",
-    "main": "index.ts",
-    "devDependencies": {
-        "@types/node": "^18",
-        "typescript": "^5.0.0"
-    },
-    "dependencies": {
-        "@pulumi/azure-native": "^2.0.0",
-        "@pulumi/pulumi": "^3.113.0"
-    }
+  "name": "pension-calculator-web-azure",
+  "main": "index.ts",
+  "devDependencies": {
+    "@pulumi/synced-folder": "^0.11.1",
+    "@types/node": "^18",
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@pulumi/azure-native": "^2.0.0",
+    "@pulumi/pulumi": "^3.113.0"
+  }
 }
