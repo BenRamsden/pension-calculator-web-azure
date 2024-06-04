@@ -3,7 +3,7 @@ import * as resources from "@pulumi/azure-native/resources";
 import * as storage from "@pulumi/azure-native/storage";
 import * as azure_native from "@pulumi/azure-native";
 import * as synced_folder from "@pulumi/synced-folder";
-// import { functionEndpoint } from "./function";
+import { functionEndpoint } from "./function";
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
@@ -91,4 +91,4 @@ export const cdnURL = pulumi.interpolate`https://${endpoint.hostName}`;
 export const cdnHostname = endpoint.hostName;
 
 // Export Function endpoints
-// export { functionEndpoint };
+export { functionEndpoint };
