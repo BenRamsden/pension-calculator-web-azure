@@ -1,5 +1,10 @@
 # pension-calculator-web
 
+# TODO
+
+- Add a view counter to the webpage using Azure Function + a cheap database
+- Add a re-direct from pension.infinitask.uk to this site
+
 # Local Development
 
 ## Setup
