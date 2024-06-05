@@ -74,4 +74,4 @@ const app = new web.WebApp("fa", {
   },
 });
 
-export const functionEndpoint = pulumi.interpolate`https://${app.defaultHostName}/api/HelloNode?name=Pulumi`;
+export const functionEndpoint = pulumi.interpolate`https://${app.defaultHostName}/api/HelloNode`;

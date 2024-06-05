@@ -9,3 +9,4 @@ export const DEFAULT_STATE_PENSION_WEEKLY_AMOUNT = 185.15;
 export const DEFAULT_SALARY_PROJECTION_ENABLED = false;
 export const DEFAULT_EARLY_DRAW_DOWN_BIAS_PCT = 0;
 export const DEFAULT_LUMP_SUM_PCT = 25;
+export const FUNCTION_ENDPOINT = "https://example.com/api/HelloNode";

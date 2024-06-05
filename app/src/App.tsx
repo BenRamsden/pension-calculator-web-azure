@@ -7,6 +7,7 @@ import HorizontalRuleIcon from "@mui/icons-material/HorizontalRule";
 import { Home } from "./pages/Home";
 import { FormStateProvider } from "./providers/FormStateProvider";
 import { PensionStateProvider } from "./providers/PensionStateProvider";
+import { useVisitCounter } from "./hooks/useVisitCounter";
 
 const PaddedStack = styled(Stack)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -41,6 +42,7 @@ const NavLink = ({
 );
 function App() {
   const { mobile } = useWindowSize();
+  const { data, error, isLoading } = useVisitCounter();
 
   return (
     <Stack sx={{ height: "100vh" }}>
@@ -63,8 +65,16 @@ function App() {
         ></NavBarSection>
         <NavBarSection
           direction="row"
-          sx={{ justifyContent: "flex-end", flex: mobile ? 0 : undefined }}
-        ></NavBarSection>
+          sx={{
+            justifyContent: "flex-end",
+            flex: mobile ? 0 : undefined,
+            color: "white",
+          }}
+        >
+          {data && `Visitor Count: ${data}`}
+          {error && error.message}
+          {isLoading && "Loading..."}
+        </NavBarSection>
       </PaddedStack>
       <PaddedStack direction={"column"} sx={{ p: 0, height: "100%" }}>
         <Gradient sx={{ pt: 5, px: 3, height: "100%" }}>
