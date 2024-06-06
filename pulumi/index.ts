@@ -35,7 +35,7 @@ const website = new azure_native.storage.StorageAccountStaticWebsite(
 );
 
 // Use a synced folder to manage the files of the website.
-const syncedFolder = new synced_folder.AzureBlobFolder("synced-folder", {
+new synced_folder.AzureBlobFolder("synced-folder", {
   path: path,
   resourceGroupName: resourceGroup.name,
   storageAccountName: storageAccount.name,
@@ -84,11 +84,9 @@ const endpoint = new azure_native.cdn.Endpoint("endpoint", {
 export const originURL = storageAccount.primaryEndpoints.apply(
   (endpoints) => endpoints.web
 );
-export { originHostname };
 
 // Export CDN URLs
 export const cdnURL = pulumi.interpolate`https://${endpoint.hostName}`;
-export const cdnHostname = endpoint.hostName;
 
 const { functionEndpoint } = new Function(
   "PensionCalculatorFunction",
@@ -96,7 +94,7 @@ const { functionEndpoint } = new Function(
   {
     codePath: "./javascript",
     blobName: "js",
-    allowedOrigins: [originHostname, cdnHostname],
+    allowedOrigins: [cdnURL, originURL],
   }
 );
 
