@@ -3,7 +3,7 @@ import * as resources from "@pulumi/azure-native/resources";
 import * as storage from "@pulumi/azure-native/storage";
 import * as azure_native from "@pulumi/azure-native";
 import * as synced_folder from "@pulumi/synced-folder";
-import { functionEndpoint } from "./function";
+import { Function } from "./function";
 
 // Import the program's configuration settings.
 const config = new pulumi.Config();
@@ -90,5 +90,16 @@ export { originHostname };
 export const cdnURL = pulumi.interpolate`https://${endpoint.hostName}`;
 export const cdnHostname = endpoint.hostName;
 
+const { functionEndpoint } = new Function(
+  "PensionCalculatorFunction",
+  {},
+  {
+    codePath: "./javascript",
+    blobName: "js",
+    allowedOrigins: [originHostname, cdnHostname],
+  }
+);
+
 // Export Function endpoints
+// Note: if this changes app/.env must be updated, then deploy the new frontend app
 export { functionEndpoint };

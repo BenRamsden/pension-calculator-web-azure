@@ -1,19 +1,16 @@
-// Copyright 2016-2021, Pulumi Corporation.  All rights reserved.
-
 import * as pulumi from "@pulumi/pulumi";
-
 import * as resources from "@pulumi/azure-native/resources";
 import * as storage from "@pulumi/azure-native/storage";
 import * as web from "@pulumi/azure-native/web";
-
 import { getConnectionString, signedBlobReadUrl } from "./helpers";
+import { ComponentResource } from "@pulumi/pulumi";
 
 // Create a separate resource group for this example.
-const resourceGroup = new resources.ResourceGroup("functions-rg");
+const resourceGroup = new resources.ResourceGroup("functions");
 
 // Storage account is required by Function App.
 // Also, we will upload the function code to the same storage account.
-const storageAccount = new storage.StorageAccount("functionssa", {
+const storageAccount = new storage.StorageAccount("functions", {
   resourceGroupName: resourceGroup.name,
   sku: {
     name: storage.SkuName.Standard_LRS,
@@ -22,22 +19,12 @@ const storageAccount = new storage.StorageAccount("functionssa", {
 });
 
 // Function code archives will be stored in this container.
-const codeContainer = new storage.BlobContainer("zips", {
+const codeContainer = new storage.BlobContainer("functions", {
   resourceGroupName: resourceGroup.name,
   accountName: storageAccount.name,
 });
 
-// Upload Azure Function's code as a zip archive to the storage account.
-const codeBlob = new storage.Blob("zip", {
-  resourceGroupName: resourceGroup.name,
-  accountName: storageAccount.name,
-  containerName: codeContainer.name,
-  source: new pulumi.asset.FileArchive("./javascript"),
-});
-
-// Define a Consumption Plan for the Function App.
-// You can change the SKU to Premium or App Service Plan if needed.
-const plan = new web.AppServicePlan("plan", {
+const plan = new web.AppServicePlan("functions", {
   resourceGroupName: resourceGroup.name,
   sku: {
     name: "Y1",
@@ -45,33 +32,72 @@ const plan = new web.AppServicePlan("plan", {
   },
 });
 
-// Build the connection string and zip archive's SAS URL. They will go to Function App's settings.
 const storageConnectionString = getConnectionString(
   resourceGroup.name,
   storageAccount.name
 );
-const codeBlobUrl = signedBlobReadUrl(
-  codeBlob,
-  codeContainer,
-  storageAccount,
-  resourceGroup
-);
 
-const app = new web.WebApp("fa", {
-  resourceGroupName: resourceGroup.name,
-  serverFarmId: plan.id,
-  kind: "functionapp",
-  siteConfig: {
-    appSettings: [
-      { name: "AzureWebJobsStorage", value: storageConnectionString },
-      { name: "FUNCTIONS_EXTENSION_VERSION", value: "~3" },
-      { name: "FUNCTIONS_WORKER_RUNTIME", value: "node" },
-      { name: "WEBSITE_NODE_DEFAULT_VERSION", value: "~14" },
-      { name: "WEBSITE_RUN_FROM_PACKAGE", value: codeBlobUrl },
-    ],
-    http20Enabled: true,
-    nodeVersion: "~14",
-  },
-});
+export class Function extends ComponentResource {
+  functionEndpoint: pulumi.Output<string>;
 
-export const functionEndpoint = pulumi.interpolate`https://${app.defaultHostName}/api/HelloNode`;
+  constructor(
+    name: string,
+    opts: pulumi.ComponentResourceOptions,
+    args: {
+      codePath: string;
+      blobName: string;
+      allowedOrigins: pulumi.Input<pulumi.Input<string>[]>;
+    }
+  ) {
+    super("custom:functions:Function", name, {}, opts);
+
+    const codeBlob = new storage.Blob(
+      args.blobName,
+      {
+        resourceGroupName: resourceGroup.name,
+        accountName: storageAccount.name,
+        containerName: codeContainer.name,
+        source: new pulumi.asset.FileArchive(args.codePath),
+      },
+      {
+        parent: this,
+      }
+    );
+
+    const codeBlobUrl = signedBlobReadUrl(
+      codeBlob,
+      codeContainer,
+      storageAccount,
+      resourceGroup
+    );
+
+    const app = new web.WebApp(
+      name,
+      {
+        resourceGroupName: resourceGroup.name,
+        serverFarmId: plan.id,
+        kind: "functionapp",
+        siteConfig: {
+          appSettings: [
+            { name: "AzureWebJobsStorage", value: storageConnectionString },
+            { name: "FUNCTIONS_EXTENSION_VERSION", value: "~3" },
+            { name: "FUNCTIONS_WORKER_RUNTIME", value: "node" },
+            { name: "WEBSITE_NODE_DEFAULT_VERSION", value: "~14" },
+            { name: "WEBSITE_RUN_FROM_PACKAGE", value: codeBlobUrl },
+          ],
+          http20Enabled: true,
+          nodeVersion: "~14",
+          cors: {
+            allowedOrigins: args.allowedOrigins,
+            supportCredentials: false,
+          },
+        },
+      },
+      {
+        parent: this,
+      }
+    );
+
+    this.functionEndpoint = pulumi.interpolate`https://${app.defaultHostName}/api/HelloNode`;
+  }
+}
