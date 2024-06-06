@@ -80,7 +80,7 @@ export class Function extends ComponentResource {
         siteConfig: {
           appSettings: [
             { name: "AzureWebJobsStorage", value: storageConnectionString },
-            { name: "FUNCTIONS_EXTENSION_VERSION", value: "~3" },
+            { name: "FUNCTIONS_EXTENSION_VERSION", value: "~4" },
             { name: "FUNCTIONS_WORKER_RUNTIME", value: "node" },
             { name: "WEBSITE_NODE_DEFAULT_VERSION", value: "~14" },
             { name: "WEBSITE_RUN_FROM_PACKAGE", value: codeBlobUrl },
