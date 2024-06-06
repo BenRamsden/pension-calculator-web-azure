@@ -92,9 +92,9 @@ const { functionEndpoint } = new Function(
   "PensionCalculatorFunction",
   {},
   {
-    codePath: "./javascript",
+    codePath: "../functions",
     blobName: "js",
-    allowedOrigins: [cdnURL, originURL],
+    allowedOrigins: [cdnURL, originURL, "http://localhost:3000"],
   }
 );
 

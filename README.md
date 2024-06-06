@@ -5,11 +5,13 @@
 - Add a view counter to the webpage using Azure Function + a cheap database
 - Add a re-direct from pension.infinitask.uk to this site
 
+# Structure
+
+- [app](./app) - ReactJS frontend
+- [functions](./functions) - Azure Functions
+- [pulumi](./pulumi) - Infrastructure as code
+
 # Local Development
-
-## Setup
-
-- Put defaults into `.env.development` matching `app/src/config/index.ts` to speed up development.
 
 ## Run app
 

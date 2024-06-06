@@ -71,8 +71,8 @@ function App() {
             color: "white",
           }}
         >
-          {data && `Visitor Count: ${data}`}
-          {error && error.message}
+          {data && `Visitor Count: ${data.visitors}`}
+          {error && <p style={{ color: "red" }}>{error.message}</p>}
           {isLoading && "Loading..."}
         </NavBarSection>
       </PaddedStack>
