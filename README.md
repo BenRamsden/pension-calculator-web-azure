@@ -2,8 +2,7 @@
 
 # TODO
 
-- Add a view counter to the webpage using Azure Function + a cheap database
-- Add a re-direct from pension.infinitask.uk to this site
+- Add a view counter to the webpage using Azure Durable Functions
 
 # Structure
 
