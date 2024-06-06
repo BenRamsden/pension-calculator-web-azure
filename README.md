@@ -2,7 +2,7 @@
 
 # TODO
 
-- Add a view counter to the webpage using Azure Durable Functions
+- Add a view counter to the webpage using CosmosDB
 
 # Structure
 
