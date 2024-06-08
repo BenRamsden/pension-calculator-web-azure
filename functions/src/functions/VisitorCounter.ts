@@ -11,13 +11,18 @@ export async function VisitorCounter(
 ): Promise<HttpResponseInit> {
   context.log(`Http function processed request for url "${request.url}"`);
 
-  const name = request.query.get("name") || (await request.text()) || "world";
-
-  return { body: `Hello, ${name}!` };
+  return {
+    body: JSON.stringify({
+      visitors: 0,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 }
 
 app.http("VisitorCounter", {
-  methods: ["GET", "POST"],
+  methods: ["GET"],
   authLevel: "anonymous",
   handler: VisitorCounter,
 });

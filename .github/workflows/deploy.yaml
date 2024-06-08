@@ -29,6 +29,17 @@ jobs:
         working-directory: ./app
         run: yarn build
 
+      - name: Install functions deps
+        working-directory: ./functions
+        run: yarn install
+      - name: Install Azure Functions Core Tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install azure-functions-core-tools-4
+      - name: Build functions
+        working-directory: ./functions
+        run: yarn build && func pack
+
       - name: Install pulumi deps
         working-directory: ./pulumi
         run: yarn install
