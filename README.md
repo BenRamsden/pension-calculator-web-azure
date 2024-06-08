@@ -20,6 +20,10 @@ yarn
 yarn dev
 ```
 
+## Run api
+
+See [functions/README.md](./functions/README.md).
+
 # CI Deployment Setup
 
 ## Azure service principal

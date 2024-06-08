@@ -88,12 +88,12 @@ export const originURL = storageAccount.primaryEndpoints.apply(
 // Export CDN URLs
 export const cdnURL = pulumi.interpolate`https://${endpoint.hostName}`;
 
-const { functionEndpoint } = new Function(
-  "PensionCalculatorFunction",
+const { functionEndpoint: functionEndpoint } = new Function(
+  "api",
   {},
   {
-    codePath: "../functions",
-    blobName: "js",
+    codePath: "../functions/functions.zip",
+    blobName: "ts",
     allowedOrigins: [cdnURL, originURL, "http://localhost:3000"],
   }
 );

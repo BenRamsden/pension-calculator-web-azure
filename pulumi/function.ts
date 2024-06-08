@@ -79,14 +79,15 @@ export class Function extends ComponentResource {
         kind: "functionapp",
         siteConfig: {
           appSettings: [
+            { name: "AzureWebJobsFeatureFlags", value: "EnableWorkerIndexing" },
             { name: "AzureWebJobsStorage", value: storageConnectionString },
             { name: "FUNCTIONS_EXTENSION_VERSION", value: "~4" },
             { name: "FUNCTIONS_WORKER_RUNTIME", value: "node" },
-            { name: "WEBSITE_NODE_DEFAULT_VERSION", value: "~14" },
+            { name: "WEBSITE_NODE_DEFAULT_VERSION", value: "~18" },
             { name: "WEBSITE_RUN_FROM_PACKAGE", value: codeBlobUrl },
           ],
           http20Enabled: true,
-          nodeVersion: "~14",
+          nodeVersion: "~18",
           cors: {
             allowedOrigins: args.allowedOrigins,
             supportCredentials: false,
@@ -98,6 +99,6 @@ export class Function extends ComponentResource {
       }
     );
 
-    this.functionEndpoint = pulumi.interpolate`https://${app.defaultHostName}/api/HelloNode`;
+    this.functionEndpoint = pulumi.interpolate`https://${app.defaultHostName}/api/<endpoint>`;
   }
 }
