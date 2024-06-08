@@ -18,7 +18,7 @@ export async function VisitorCounter(
 ): Promise<HttpResponseInit> {
   context.log(`Http function processed request for url "${request.url}"`);
   const key = request.query.get("key");
-  if (key === undefined) {
+  if (key === null) {
     return {
       status: 400,
       body: JSON.stringify({
@@ -42,7 +42,7 @@ export async function VisitorCounter(
       .database(COSMOS_DATABASE_NAME)
       .container(COSMOS_CONTAINER_NAME);
     const response = await collection.item(key, undefined).read();
-    resource = response.resource;
+    resource = response.resource ?? null;
     error = null;
   } catch (err) {
     console.log(err);
