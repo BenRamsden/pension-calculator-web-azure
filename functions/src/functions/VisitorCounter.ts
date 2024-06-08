@@ -30,28 +30,31 @@ export async function VisitorCounter(
     };
   }
 
-  const client = new CosmosClient({
-    endpoint: COSMOS_ENDPOINT,
-    key: COSMOS_KEY,
-    // connectionPolicy: { preferredLocations: [location] },
-  });
-  const collection = client
-    .database(COSMOS_DATABASE_NAME)
-    .container(COSMOS_CONTAINER_NAME);
-
   let resource;
+  let error;
   try {
+    const client = new CosmosClient({
+      endpoint: COSMOS_ENDPOINT,
+      key: COSMOS_KEY,
+      // connectionPolicy: { preferredLocations: [location] },
+    });
+    const collection = client
+      .database(COSMOS_DATABASE_NAME)
+      .container(COSMOS_CONTAINER_NAME);
     const response = await collection.item(key, undefined).read();
     resource = response.resource;
-  } catch (error) {
-    console.log(error);
+    error = null;
+  } catch (err) {
+    console.log(err);
     resource = null;
+    error = err;
   }
 
   return {
     body: JSON.stringify({
       visitors: 0,
       resource,
+      error,
     }),
     headers: {
       "Content-Type": "application/json",
