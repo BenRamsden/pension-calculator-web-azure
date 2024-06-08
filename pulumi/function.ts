@@ -4,6 +4,12 @@ import * as storage from "@pulumi/azure-native/storage";
 import * as web from "@pulumi/azure-native/web";
 import { getConnectionString, signedBlobReadUrl } from "./helpers";
 import { ComponentResource } from "@pulumi/pulumi";
+import {
+  cosmosAccount,
+  cosmosDb,
+  cosmosDbAccountKeys,
+  cosmosDbContainer,
+} from "./cosmosdb";
 
 // Create a separate resource group for this example.
 const resourceGroup = new resources.ResourceGroup("functions");
@@ -85,6 +91,10 @@ export class Function extends ComponentResource {
             { name: "FUNCTIONS_WORKER_RUNTIME", value: "node" },
             { name: "WEBSITE_NODE_DEFAULT_VERSION", value: "~18" },
             { name: "WEBSITE_RUN_FROM_PACKAGE", value: codeBlobUrl },
+            { name: "COSMOS_ENDPOINT", value: cosmosAccount.documentEndpoint },
+            { name: "COSMOS_KEY", value: cosmosDbAccountKeys.primaryMasterKey },
+            { name: "COSMOS_DATABASE_NAME", value: cosmosDb.name },
+            { name: "COSMOS_CONTAINER_NAME", value: cosmosDbContainer.name },
           ],
           http20Enabled: true,
           nodeVersion: "~18",
