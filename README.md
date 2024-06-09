@@ -1,6 +1,8 @@
-# pension-calculator-web
+# pension-calculator-web-aws
 
 Demo site: [https://pensioncalc3d6fed6f.z16.web.core.windows.net/](https://pensioncalc3d6fed6f.z16.web.core.windows.net/)
+
+See also [AWS alternative](https://github.com/BenRamsden/pension-calculator-web-aws).
 
 # Structure
 
