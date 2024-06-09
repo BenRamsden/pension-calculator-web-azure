@@ -1,9 +1,5 @@
 # pension-calculator-web
 
-# TODO
-
-- Add a view counter to the webpage using CosmosDB
-
 # Structure
 
 - [app](./app) - ReactJS frontend
