@@ -1,4 +1,4 @@
-# pension-calculator-web-aws
+# pension-calculator-web-azure
 
 Demo site: [https://pensioncalc3d6fed6f.z16.web.core.windows.net/](https://pensioncalc3d6fed6f.z16.web.core.windows.net/)
 
