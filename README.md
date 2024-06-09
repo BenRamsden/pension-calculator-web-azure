@@ -20,6 +20,13 @@ yarn
 yarn dev
 ```
 
+## Develop against local backend
+
+```shell
+echo "VITE_FUNCTION_ENDPOINT=http://localhost:7071/api/VisitorCounter" >> app/.env.local
+yarn dev
+```
+
 ## Run api
 
 See [functions/README.md](./functions/README.md).

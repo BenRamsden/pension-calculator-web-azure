@@ -17,12 +17,28 @@ export async function VisitorCounter(
   context: InvocationContext
 ): Promise<HttpResponseInit> {
   context.log(`Http function processed request for url "${request.url}"`);
-  const key = request.query.get("key");
-  if (key === null) {
+  const increment = request.query.get("increment") === "true";
+
+  const client = new CosmosClient({
+    endpoint: COSMOS_ENDPOINT,
+    key: COSMOS_KEY,
+  });
+  const collection = client
+    .database(COSMOS_DATABASE_NAME)
+    .container(COSMOS_CONTAINER_NAME);
+
+  let visitors: number;
+  let exists: boolean;
+  try {
+    const response = await collection.item("visits", undefined).read();
+    visitors = response.resource?.visitors ?? 0;
+    exists = response.resource !== undefined;
+  } catch (err) {
+    console.log(err);
     return {
-      status: 400,
+      status: 500,
       body: JSON.stringify({
-        error: "Please provide a key",
+        error: "Failed to read from Cosmos DB",
       }),
       headers: {
         "Content-Type": "application/json",
@@ -30,31 +46,36 @@ export async function VisitorCounter(
     };
   }
 
-  let resource;
-  let error;
-  try {
-    const client = new CosmosClient({
-      endpoint: COSMOS_ENDPOINT,
-      key: COSMOS_KEY,
-      // connectionPolicy: { preferredLocations: [location] },
+  if (!increment) {
+    return {
+      body: JSON.stringify({
+        visitors,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+  }
+
+  const newVisitors = visitors + 1;
+
+  if (exists) {
+    console.log("Replacing existing item", { newVisitors });
+    await collection.item("visits", undefined).replace({
+      id: "visits",
+      visitors: newVisitors,
     });
-    const collection = client
-      .database(COSMOS_DATABASE_NAME)
-      .container(COSMOS_CONTAINER_NAME);
-    const response = await collection.item(key, undefined).read();
-    resource = response.resource ?? null;
-    error = null;
-  } catch (err) {
-    console.log(err);
-    resource = null;
-    error = err;
+  } else {
+    console.log("Creating new item", { newVisitors });
+    await collection.items.create({
+      id: "visits",
+      visitors: newVisitors,
+    });
   }
 
   return {
     body: JSON.stringify({
-      visitors: 0,
-      resource,
-      error,
+      visitors: newVisitors,
     }),
     headers: {
       "Content-Type": "application/json",

@@ -4,6 +4,6 @@ import fetch from "unfetch";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
-export const useVisitCounter = () => {
-  return useSWR(FUNCTION_ENDPOINT, fetcher);
+export const useVisitCounter = ({ increment }: { increment: boolean }) => {
+  return useSWR(`${FUNCTION_ENDPOINT}?increment=${increment}`, fetcher);
 };

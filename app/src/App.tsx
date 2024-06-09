@@ -8,6 +8,7 @@ import { Home } from "./pages/Home";
 import { FormStateProvider } from "./providers/FormStateProvider";
 import { PensionStateProvider } from "./providers/PensionStateProvider";
 import { useVisitCounter } from "./hooks/useVisitCounter";
+import { useLocalStorage } from "usehooks-ts";
 
 const PaddedStack = styled(Stack)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -42,12 +43,15 @@ const NavLink = ({
 );
 function App() {
   const { mobile } = useWindowSize();
-  const { data, error, isLoading } = useVisitCounter();
+  const [visitedBefore] = useLocalStorage("visitedBefore", true);
+  const { data, error, isLoading } = useVisitCounter({
+    increment: !visitedBefore,
+  });
 
   return (
     <Stack sx={{ height: "100vh" }}>
       <PaddedStack
-        direction="row"
+        direction={mobile ? "column" : "row"}
         sx={{ justifyContent: "space-between", p: 2, backgroundColor: "#222" }}
       >
         <NavBarSection
@@ -66,8 +70,7 @@ function App() {
         <NavBarSection
           direction="row"
           sx={{
-            justifyContent: "flex-end",
-            flex: mobile ? 0 : undefined,
+            justifyContent: mobile ? "center" : "flex-end",
             color: "white",
           }}
         >
