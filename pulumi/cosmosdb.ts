@@ -51,21 +51,3 @@ export const cosmosDbAccountKeys = documentdb.listDatabaseAccountKeysOutput({
   accountName: cosmosAccount.name,
   resourceGroupName: resourceGroup.name,
 });
-
-// const clientConfig = pulumi.output(authorization.getClientConfig());
-//
-// const apiId = pulumi.interpolate`/subscriptions/${clientConfig.subscriptionId}/providers/Microsoft.Web/locations/${resourceGroup.location}/managedApis/documentdb`;
-//
-// export const cosmosDbConnection = new web.Connection("cosmosdbConnection", {
-//   resourceGroupName: resourceGroup.name,
-//   properties: {
-//     displayName: "cosmosdb_connection",
-//     api: {
-//       id: apiId,
-//     },
-//     parameterValues: {
-//       databaseAccount: cosmosAccount.name,
-//       accessKey: cosmosDbAccountKeys.primaryMasterKey,
-//     },
-//   },
-// });

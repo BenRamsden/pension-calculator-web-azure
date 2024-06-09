@@ -15,7 +15,7 @@ const errorDocument = config.get("errorDocument") || "error.html";
 const resourceGroup = new resources.ResourceGroup("resourceGroup");
 
 // Create an Azure resource (Storage Account)
-const storageAccount = new storage.StorageAccount("sa", {
+const storageAccount = new storage.StorageAccount("pensioncalc", {
   resourceGroupName: resourceGroup.name,
   sku: {
     name: storage.SkuName.Standard_LRS,
@@ -42,51 +42,10 @@ new synced_folder.AzureBlobFolder("synced-folder", {
   containerName: website.containerName,
 });
 
-// Create a CDN profile.
-const profile = new azure_native.cdn.Profile("profile", {
-  resourceGroupName: resourceGroup.name,
-  sku: {
-    name: "Standard_Microsoft",
-  },
-});
-
-// Pull the hostname out of the storage-account endpoint.
-const originHostname = storageAccount.primaryEndpoints.apply(
-  (endpoints) => new URL(endpoints.web)
-).hostname;
-
-// Create a CDN endpoint to distribute and cache the website.
-const endpoint = new azure_native.cdn.Endpoint("endpoint", {
-  resourceGroupName: resourceGroup.name,
-  profileName: profile.name,
-  isHttpAllowed: false,
-  isHttpsAllowed: true,
-  isCompressionEnabled: true,
-  contentTypesToCompress: [
-    "text/html",
-    "text/css",
-    "application/javascript",
-    "application/json",
-    "image/svg+xml",
-    "font/woff",
-    "font/woff2",
-  ],
-  originHostHeader: originHostname,
-  origins: [
-    {
-      name: storageAccount.name,
-      hostName: originHostname,
-    },
-  ],
-});
-
 // Export Storage Account URLs
 export const originURL = storageAccount.primaryEndpoints.apply(
   (endpoints) => endpoints.web
 );
-
-// Export CDN URLs
-export const cdnURL = pulumi.interpolate`https://${endpoint.hostName}`;
 
 const { functionEndpoint: functionEndpoint } = new Function(
   "api",
@@ -94,7 +53,7 @@ const { functionEndpoint: functionEndpoint } = new Function(
   {
     codePath: "../functions/functions.zip",
     blobName: "ts",
-    allowedOrigins: [cdnURL, originURL, "http://localhost:3000"],
+    allowedOrigins: [originURL, "http://localhost:3000"],
   }
 );
 
