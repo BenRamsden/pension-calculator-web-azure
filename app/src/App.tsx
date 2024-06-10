@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { styled } from "@mui/material/styles";
 import { Box, Button, Link, Stack, SxProps, Typography } from "@mui/material";
 import { useWindowSize } from "./hooks/useWindowSize";
@@ -43,10 +43,17 @@ const NavLink = ({
 );
 function App() {
   const { mobile } = useWindowSize();
-  const [visitedBefore] = useLocalStorage("visitedBefore", true);
+  const [visitedBefore, setVisitedBefore] = useLocalStorage(
+    "visitedBefore",
+    false
+  );
   const { data, error, isLoading } = useVisitCounter({
     increment: !visitedBefore,
   });
+  useEffect(() => {
+    if (!data) return;
+    setVisitedBefore(true);
+  }, [data, setVisitedBefore]);
 
   return (
     <Stack sx={{ height: "100vh" }}>
