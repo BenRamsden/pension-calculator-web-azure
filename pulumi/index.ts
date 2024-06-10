@@ -44,7 +44,7 @@ new synced_folder.AzureBlobFolder("synced-folder", {
 
 // Export Storage Account URLs
 export const originURL = storageAccount.primaryEndpoints.apply(
-  (endpoints) => endpoints.web
+  (endpoints) => endpoints.web.replace(/\/$/, "") // Remove trailing slash
 );
 
 const { functionEndpoint: functionEndpoint } = new Function(
