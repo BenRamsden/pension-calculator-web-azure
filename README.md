@@ -1,7 +1,5 @@
 # pension-calculator-web-azure
 
-Demo site: [https://pensioncalc3d6fed6f.z16.web.core.windows.net/](https://pensioncalc3d6fed6f.z16.web.core.windows.net/)
-
 See also [AWS alternative](https://github.com/BenRamsden/pension-calculator-web-aws).
 
 <img src="./docs/images/pension_calculator_preview_11_04_2024.png" />

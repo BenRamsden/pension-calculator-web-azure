@@ -39,19 +39,18 @@ jobs:
       - name: Build functions
         working-directory: ./functions
         run: yarn build && func pack
-
-      - name: Install pulumi deps
-        working-directory: ./pulumi
-        run: yarn install
-      - name: Pulumi up
-        uses: pulumi/actions@v3
-        with:
-          command: up
-          stack-name: prod
-          work-dir: pulumi
-        env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+#      - name: Install pulumi deps
+#        working-directory: ./pulumi
+#        run: yarn install
+#      - name: Pulumi up
+#        uses: pulumi/actions@v3
+#        with:
+#          command: up
+#          stack-name: prod
+#          work-dir: pulumi
+#        env:
+#          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+#          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+#          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+#          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+#          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
